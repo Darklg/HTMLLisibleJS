@@ -1,0 +1,14 @@
+{
+  "name": "htmllisiblejs",
+  "version": "0.0.0",
+  "description": "Reindentation & Correction de HTML",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Darklg/HTMLLisibleJS.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Darklg/HTMLLisibleJS/issues"
+  }
+}

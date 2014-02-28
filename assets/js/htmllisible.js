@@ -3,6 +3,11 @@
  */
 
 var HTMLLisible = function() {
+
+    var tagsToTrim = ['a', 'strong', 'em', 'h1', 'h2', 'h3', 'label', 'textarea', 'button', 'title'],
+        tagsToTrimLength = tagsToTrim.length,
+        uniqueTags = ['meta', 'br', 'hr', 'link', 'input'];
+
     this.clean = function(html) {
         // Add missing slashes to autoclosing tags
         html = this.addMissingSlashes(html);
@@ -10,11 +15,15 @@ var HTMLLisible = function() {
         html = this.cleanHTML(html);
         // Prepare indent HTML
         html = this.reindentHTML(html);
-        return html;
+        // Trim content on some tags
+        html = this.trimContentTags(html);
+        return this.trim(html);
     };
 
+    // Add missing slashes to unique tags
     this.addMissingSlashes = function(html) {
-        html = String(html).replace(/<(meta|br|hr|link)([^>\/]*)>/g, '<$1$2 />');
+        var regMissing = new RegExp("<(" + uniqueTags.join('|') + ")([^>\/]*)>", 'g');
+        html = String(html).replace(regMissing, '<$1$2 />');
         return html;
     };
 
@@ -22,13 +31,14 @@ var HTMLLisible = function() {
         // Replace spaces after tag
         html = String(html).replace(/>([ \t\n]+)/gm, '>');
         // Replace spaces before tag
-        html = html.replace(/(\s\t\n+)</gm, '<');
-        // Set one tag per line
-        html = html.replace(/>([^<]*)</g, ">\n$1\n<");
+        html = String(html).replace(/([ \t\n]+)</gm, '<');
         return html;
     };
 
     this.reindentHTML = function(html) {
+
+        // Set one tag per line
+        html = html.replace(/>([^<]*)</g, ">\n$1\n<");
 
         // Extract lines
         var lines = String(html).split("\n"),
@@ -66,11 +76,31 @@ var HTMLLisible = function() {
         return reindentedHTML;
     };
 
+    // Trim some tag contents if they dont contain HTML
+    this.trimContentTags = function(html) {
+        var i = 0,
+            j = 0,
+            reg, tag, matches, matchesLength;
+
+        for (; i < tagsToTrimLength; i++) {
+            tag = tagsToTrim[i];
+            reg = new RegExp("<" + tag + "([^>]*)>([^<]*)</" + tag + ">", 'gm');
+            matches = html.match(reg);
+            if (matches) {
+                matchesLength = matches.length;
+                for (j = 0; j < matchesLength; j++) {
+                    html = html.replace(matches[j], this.cleanHTML(matches[j]));
+                }
+            }
+        }
+        return html;
+    };
+
     /* Utilities */
 
     // Pad a string to a given number
     this.pad = function(nb, str) {
-        str = !str ? "\t" : str;
+        str = !str ? "    " : str;
         nb = !nb ? 0 : nb;
         return new Array(nb + 1).join(str);
     };

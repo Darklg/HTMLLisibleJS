@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+/* ----------------------------------------------------------
+  Layout
+---------------------------------------------------------- */
+
+html,
+body {
+    height: 100%;
+    min-height: 400px;
+}
+
+.main {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 600px;
+    height: 300px;
+    margin: auto;
+}
+
+.footer {
+    z-index: 1;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 30px;
+    padding: 0 10px;
+    text-align: right;
+    font-size: 12px;
+    line-height: 30px;
+    outline: 1px solid #e0e0e0;
+    background-color: #f0f0f0;
+}
+
+/* ----------------------------------------------------------
+  Form
+---------------------------------------------------------- */
+
+.cssc-form textarea {
+    height: 160px;
+    font-family: Monospace;
+    line-height: 16px;
+}

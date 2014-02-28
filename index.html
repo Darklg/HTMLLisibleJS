@@ -3,20 +3,35 @@
     <head>
         <meta charset="UTF-8" />
         <title>HTML Lisible</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/default.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/forms.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/buttons.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/app.css" />
     </head>
     <body>
-        <h1>HTML Lisible</h1>
-        <form action="" method="post" id="main-form">
-            <ul>
-                <li>
-                    <label for="content">Content</label><br />
-                    <textarea rows="10" cols="60" name="content" id="content"></textarea>
-                </li>
-                <li>
-                    <button id="submit" class="cssc-button" type="submit">Clean up !</button>
-                </li>
-            </ul>
-        </form>
+        <div class="main">
+            <h1>HTML Lisible</h1>
+            <form action="" method="post" id="main-form">
+                <ul class="cssc-form">
+                    <li class="box">
+                        <label for="content">Paste some HTML code to clean :</label>
+                        <textarea rows="10" cols="60" name="content" id="content"></textarea>
+                    </li>
+                    <li class="box submit-box">
+                        <button id="submit" class="cssc-button cssc-button-medium" type="submit">Clean this code !</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <footer class="footer">
+            <strong>HTML Lisible</strong>
+            is under MIT License —
+            Made by
+            <a target="_blank" href="http://darklg.me">Darklg</a>
+            —
+            <a target="_blank" href="https://github.com/Darklg/HTMLLisibleJS">Fork me on Github</a>
+        </footer>
+
         <script src="assets/js/jsutilities.js"></script>
         <script src="assets/js/htmllisible.js"></script>
         <script src="assets/js/events.js"></script>

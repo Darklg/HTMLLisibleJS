@@ -8,6 +8,7 @@ html,
 body {
     height: 100%;
     min-height: 400px;
+    min-width: 600px;
 }
 
 .main {
@@ -17,7 +18,7 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    width: 600px;
+    width: 50%;
     height: 300px;
     margin: auto;
 }
@@ -42,7 +43,31 @@ body {
 ---------------------------------------------------------- */
 
 .cssc-form textarea {
-    height: 160px;
+    height: 150px;
     font-family: Monospace;
     line-height: 16px;
+}
+
+.cssc-select--tabs,
+.submit-box label {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.cssc-select--tabs {
+    width: 100px;
+}
+
+/* ----------------------------------------------------------
+  Adaptive
+---------------------------------------------------------- */
+
+@media(min-height:560px) {
+    .main {
+        height: 450px;
+    }
+
+    .cssc-form textarea {
+        height: 300px;
+    }
 }

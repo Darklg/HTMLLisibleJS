@@ -26,7 +26,42 @@ var HTMLLisible = function() {
             }
         };
 
-    this.clean = function(html) {
+    this.setFormActions = function(els) {
+
+        // Set Select values
+        this.setElements(els);
+
+        // Events
+        this.setEvents(els);
+
+    };
+
+    // Elements
+    this.setElements = function(els){
+        // Select
+        var tmpHTML = '',
+            indobj = '';
+        for (var ind in indentations) {
+            indobj = indentations[ind];
+            tmpHTML += '<option value="' + ind + '" ' + (indobj.isDefault ? 'selected="selected"' : '') + '>' + indobj.name + '</option>';
+        }
+        els.indentItem.innerHTML = tmpHTML;
+    };
+
+    // Events
+    this.setEvents = function(els){
+        // On form submit
+        els.mainform.addEvent('submit', function(e) {
+            window.eventPreventDefault(e);
+            var htmlToClean = els.contentItem.value,
+                indent = els.indentItem.value;
+            // Replace textarea value with clean HTML
+            els.contentItem.value = self.clean(htmlToClean, indent);
+        });
+    };
+
+    // Returns cleaned HTML
+    this.clean = function(html, indent) {
         // Add missing slashes to autoclosing tags
         html = this.addMissingSlashes(html);
         // Clean HTML

@@ -96,6 +96,13 @@ var HTMLLisible = function() {
         return html;
     };
 
+    // Trim empty tags
+    this.trimEmptyTags = function(html) {
+        // Empty tag = opening & non unique tag, following by space and a closing tag
+        html = html.replace(/<([^\/])([^>]*)([^\/])>([\s\t\n]*)<\//g, '<$1$2$3></');
+        return html;
+    };
+
     /* Utilities */
 
     // Pad a string to a given number

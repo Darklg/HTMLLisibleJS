@@ -4,9 +4,27 @@
 
 var HTMLLisible = function() {
 
-    var tagsToTrim = ['a', 'strong', 'em', 'h1', 'h2', 'h3', 'label', 'textarea', 'button', 'title'],
+    var self = this,
+        uniqueTags = ['meta', 'br', 'hr', 'link', 'input'],
+        tagsToTrim = ['a', 'span', 'strong', 'em', 'h1', 'h2', 'h3', 'label', 'button', 'title'],
         tagsToTrimLength = tagsToTrim.length,
-        uniqueTags = ['meta', 'br', 'hr', 'link', 'input'];
+        indentations = {
+            'spaces2': {
+                isDefault: 0,
+                name: "2 spaces",
+                value: "  ",
+            },
+            'spaces4': {
+                isDefault: 1,
+                name: "4 spaces",
+                value: "    ",
+            },
+            'tabs1': {
+                isDefault: 0,
+                name: "1 tab",
+                value: "\t",
+            }
+        };
 
     this.clean = function(html) {
         // Add missing slashes to autoclosing tags
@@ -14,9 +32,11 @@ var HTMLLisible = function() {
         // Clean HTML
         html = this.cleanHTML(html);
         // Prepare indent HTML
-        html = this.reindentHTML(html);
+        html = this.reindentHTML(html, indent);
         // Trim content on some tags
         html = this.trimContentTags(html);
+        // Trim empty tags
+        html = this.trimEmptyTags(html);
         return this.trim(html);
     };
 
@@ -35,7 +55,7 @@ var HTMLLisible = function() {
         return html;
     };
 
-    this.reindentHTML = function(html) {
+    this.reindentHTML = function(html, indent) {
 
         // Set one tag per line
         html = html.replace(/>([^<]*)</g, ">\n$1\n<");
@@ -63,8 +83,10 @@ var HTMLLisible = function() {
                 indentLevel--;
             }
 
+            var indentType = !! (indentations[indent]) ? indentations[indent].value : false;
+
             // Prepare indentHTML
-            indentHTML = this.pad(indentLevel);
+            indentHTML = this.pad(indentLevel, indentType);
 
             // Opening line (not unique tag)
             if (line.match(/^<([a-zA-Z])/) && !line.match(/\/>$/)) {

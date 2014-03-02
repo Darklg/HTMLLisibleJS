@@ -62,6 +62,8 @@ var HTMLLisible = function() {
 
     // Returns cleaned HTML
     this.clean = function(html, indent) {
+        // Remove line breaks inside tags
+        html = this.removeLineBreaksInsideTags(html);
         // Add missing slashes to autoclosing tags
         html = this.addMissingSlashes(html);
         // Clean HTML
@@ -79,6 +81,11 @@ var HTMLLisible = function() {
     this.addMissingSlashes = function(html) {
         var regMissing = new RegExp("<(" + uniqueTags.join('|') + ")([^>\/]*)>", 'g');
         html = String(html).replace(regMissing, '<$1$2 />');
+        return html;
+    };
+    // Remove line breaks inside tags
+    this.removeLineBreaksInsideTags = function(html) {
+        html = String(html).replace(/<([^>]*)\n([^>]*)>/g, '<$1 $2>');
         return html;
     };
 

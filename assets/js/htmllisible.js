@@ -37,7 +37,7 @@ var HTMLLisible = function() {
     };
 
     // Elements
-    this.setElements = function(els){
+    this.setElements = function(els) {
         // Select
         var tmpHTML = '',
             indobj = '';
@@ -49,7 +49,7 @@ var HTMLLisible = function() {
     };
 
     // Events
-    this.setEvents = function(els){
+    this.setEvents = function(els) {
         // On form submit
         els.mainform.addEvent('submit', function(e) {
             window.eventPreventDefault(e);
@@ -77,12 +77,13 @@ var HTMLLisible = function() {
         return this.trim(html);
     };
 
-    // Add missing slashes to unique tags
+    // Add missing slashes to autoclosing tags
     this.addMissingSlashes = function(html) {
-        var regMissing = new RegExp("<(" + uniqueTags.join('|') + ")([^>\/]*)>", 'g');
-        html = String(html).replace(regMissing, '<$1$2 />');
+        var regMissing = new RegExp("<(" + uniqueTags.join('|') + ")([^>]*)([^>\/]{1})>", 'g');
+        html = String(html).replace(regMissing, '<$1$2$3 />');
         return html;
     };
+
     // Remove line breaks inside tags
     this.removeLineBreaksInsideTags = function(html) {
         html = String(html).replace(/<([^>]*)\n([^>]*)>/g, '<$1 $2>');

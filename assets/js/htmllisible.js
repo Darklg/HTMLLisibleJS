@@ -24,7 +24,28 @@ var HTMLLisible = function() {
                 name: "1 tab",
                 value: "\t",
             }
-        };
+        },
+        isolations = [{
+            treatAsAutoclosingTag: 0,
+            name: 'php',
+            exp: /<\?php([\s\S]*?)?>/gm,
+            values: []
+        }, {
+            treatAsAutoclosingTag: 1,
+            name: 'pre',
+            exp: /<pre([\s\S]*?)<\/pre>/gm,
+            values: []
+        }, {
+            treatAsAutoclosingTag: 1,
+            name: 'style',
+            exp: /<style([\s\S]*?)<\/style>/gm,
+            values: []
+        }, {
+            treatAsAutoclosingTag: 1,
+            name: 'script',
+            exp: /<script([\s\S]*?)<\/script>/gm,
+            values: []
+        }];
 
     this.setFormActions = function(els) {
 
@@ -60,8 +81,55 @@ var HTMLLisible = function() {
         });
     };
 
+    this.setIsolationStrings = function(html) {
+        var isolobj = false,
+            strings = [],
+            replaceNb = 0,
+            tmpstr = '',
+            str = '';
+        for (var isol in isolations) {
+            isolobj = isolations[isol];
+            // Empty old values
+            isolobj.values = [];
+            str = '';
+            // Get strings
+            strings = html.match(isolobj.exp);
+            for (str in strings) {
+                replaceNb++;
+                tmpstr = '__##__' + replaceNb + '__##__';
+                if (isolobj.treatAsAutoclosingTag) {
+                    tmpstr = '<' + tmpstr + '/>';
+                }
+                isolobj.values.push({
+                    'str': strings[str],
+                    'tmpstr': tmpstr
+                });
+                // Replace string by a rand string
+                html = html.replace(strings[str], tmpstr);
+            }
+        }
+        return html;
+    };
+
+    this.unsetIsolationStrings = function(html) {
+        var isol, isolstr, isolval;
+        isolations.reverse();
+        for (isol in isolations) {
+            isolobj = isolations[isol];
+            isolstr = '';
+            isolobj.values.reverse();
+            for (isolstr in isolobj.values) {
+                isolval = isolobj.values[isolstr];
+                html = html.replace(isolval.tmpstr, isolval.str);
+            }
+        }
+        return html;
+    };
+
     // Returns cleaned HTML
     this.clean = function(html, indent) {
+        // Isolate string
+        html = this.setIsolationStrings(html);
         // Remove line breaks inside tags
         html = this.removeLineBreaksInsideTags(html);
         // Add missing slashes to autoclosing tags
@@ -74,6 +142,8 @@ var HTMLLisible = function() {
         html = this.trimContentTags(html);
         // Trim empty tags
         html = this.trimEmptyTags(html);
+        // Unset string isolation
+        html = this.unsetIsolationStrings(html);
         return this.trim(html);
     };
 

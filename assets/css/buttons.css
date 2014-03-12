@@ -91,6 +91,7 @@ License: MIT
 .cssc-button:hover {
     border-color: #bbb;
     text-decoration: none;
+    outline: 0;
     color: #000;
     background-position: 0 12px;
 }
@@ -118,6 +119,11 @@ License: MIT
 .wide-button {
     display: block;
     width: 100%;
+}
+
+.discreet-button {
+    opacity: 0.70;
+    filter: alpha(opacity=70);
 }
 
 /* Tailles de boutons

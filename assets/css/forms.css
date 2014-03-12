@@ -154,10 +154,8 @@ button {
 }
 
 .cssc-form .submit-box button {
-    z-index: 1;
-    position: absolute;
-    top: 0;
-    right: 0;
+    float: right;
+    margin-left: 5px;
 }
 
 /* Deux blocs */

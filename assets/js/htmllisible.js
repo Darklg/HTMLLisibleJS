@@ -79,6 +79,33 @@ var HTMLLisible = function() {
             // Replace textarea value with clean HTML
             els.contentItem.value = self.clean(htmlToClean, indent);
         });
+        els.compressBtn.addEvent('click', function(e) {
+            window.eventPreventDefault(e);
+            els.contentItem.value = self.clean(els.contentItem.value, -1);
+        });
+    };
+
+    // Returns cleaned HTML
+    this.clean = function(html, indent) {
+        // Isolate string
+        html = this.setIsolationStrings(html);
+        // Remove line breaks inside tags
+        html = this.removeLineBreaksInsideTags(html);
+        // Add missing slashes to autoclosing tags
+        html = this.addMissingSlashes(html);
+        // Clean HTML
+        html = this.cleanHTML(html);
+        if (indent !== -1) {
+            // Prepare indent HTML
+            html = this.reindentHTML(html, indent);
+        }
+        // Trim content on some tags
+        html = this.trimContentTags(html);
+        // Trim empty tags
+        html = this.trimEmptyTags(html);
+        // Unset string isolation
+        html = this.unsetIsolationStrings(html);
+        return this.trim(html);
     };
 
     this.setIsolationStrings = function(html) {
@@ -124,27 +151,6 @@ var HTMLLisible = function() {
             }
         }
         return html;
-    };
-
-    // Returns cleaned HTML
-    this.clean = function(html, indent) {
-        // Isolate string
-        html = this.setIsolationStrings(html);
-        // Remove line breaks inside tags
-        html = this.removeLineBreaksInsideTags(html);
-        // Add missing slashes to autoclosing tags
-        html = this.addMissingSlashes(html);
-        // Clean HTML
-        html = this.cleanHTML(html);
-        // Prepare indent HTML
-        html = this.reindentHTML(html, indent);
-        // Trim content on some tags
-        html = this.trimContentTags(html);
-        // Trim empty tags
-        html = this.trimEmptyTags(html);
-        // Unset string isolation
-        html = this.unsetIsolationStrings(html);
-        return this.trim(html);
     };
 
     // Add missing slashes to autoclosing tags

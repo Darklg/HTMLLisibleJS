@@ -31,6 +31,11 @@ var HTMLLisible = function() {
             exp: /<\?php([\s\S]*?)?>/gm,
             values: []
         }, {
+            treatAsAutoclosingTag: 0,
+            name: 'ifcomm',
+            exp: /<!--\[if([\s\S.]*?)endif\]-->/gm,
+            values: []
+        }, {
             treatAsAutoclosingTag: 1,
             name: 'pre',
             exp: /<pre([\s\S]*?)<\/pre>/gm,
@@ -198,7 +203,7 @@ var HTMLLisible = function() {
             }
 
             // Closing line
-            if (line.match(/^<\//)) {
+            if (line.match(/^<\//) || line == '<![endif]-->') {
                 indentLevel--;
             }
 

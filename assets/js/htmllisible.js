@@ -215,7 +215,12 @@ var HTMLLisible = function() {
             // Opening line (not unique tag)
             if (line.match(/^<([a-zA-Z])/) && !line.match(/\/>$/)) {
                 indentLevel++;
+                // Don't reindent the HTML tag
+                if (line.match(/^<html/)) {
+                    indentLevel--;
+                }
             }
+
             reindentedHTML += indentHTML + line + "\n";
         }
 

@@ -31,7 +31,7 @@ var HTMLLisible = function() {
             exp: /<\?php([\s\S]*?)?>/gm,
             values: []
         }, {
-            treatAsAutoclosingTag: 0,
+            treatAsAutoclosingTag: 1,
             name: 'ifcomm',
             exp: /<!--\[if([\s\S.]*?)endif\]-->/gm,
             values: []

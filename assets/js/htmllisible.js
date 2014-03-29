@@ -260,7 +260,13 @@ var HTMLLisible = function() {
     this.pad = function(nb, str) {
         str = !str ? "    " : str;
         nb = !nb ? 0 : nb;
-        return new Array(nb + 1).join(str);
+        var pad = '',
+            i = 0;
+        while (i < nb) {
+            i++;
+            pad += str;
+        }
+        return pad;
     };
 
     // Trim a string

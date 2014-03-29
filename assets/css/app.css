@@ -19,13 +19,13 @@ body {
     bottom: 0;
     left: 0;
     width: 50%;
-    height: 300px;
     margin: auto;
+    padding-bottom: 40px;
 }
 
 .footer {
     z-index: 1;
-    position: absolute;
+    position: fixed;
     right: 0;
     bottom: 0;
     left: 0;
@@ -46,6 +46,10 @@ body {
     height: 150px;
     font-family: Monospace;
     line-height: 16px;
+}
+
+.cssc-form .submit-box {
+    min-height: 50px;
 }
 
 .cssc-select--tabs,

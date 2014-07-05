@@ -110,7 +110,35 @@ var HTMLLisible = function() {
         html = this.trimEmptyTags(html);
         // Unset string isolation
         html = this.unsetIsolationStrings(html);
+        // Indent script / style closing tag
+        html = this.indentScriptStyleClosingTag(html);
         return this.trim(html);
+    };
+
+    this.indentScriptStyleClosingTag = function(html) {
+        var exp = /([ \t]+)<(scrip|styl)([^<]*)>([^<]*)<\/(script|style)>/g,
+            spExp = /([ \t]+)(.*)/,
+            matches = html.match(exp),
+            newMatch, tmpMatch, spaces, i, lastLine, lastLineContent;
+
+        // Obtain all script/style tag content
+        for (i in matches) {
+            newMatch = matches[i];
+            tmpMatch = matches[i].split("\n");
+            // Check number of spaces in first line
+            if (tmpMatch[0]) {
+                spaces = tmpMatch[0].match(spExp);
+                // Apply spaces to last line
+                lastLine = tmpMatch.length - 1;
+                if (tmpMatch[lastLine].indexOf(spaces[1]) !== 0) {
+                    lastLineContent = spaces[1] + tmpMatch[lastLine].trim();
+                    newMatch = newMatch.replace(tmpMatch[lastLine], lastLineContent);
+                }
+
+                html = html.replace(matches[i], newMatch);
+            }
+        }
+        return html;
     };
 
     this.setIsolationStrings = function(html) {
@@ -207,7 +235,7 @@ var HTMLLisible = function() {
                 indentLevel--;
             }
 
-            var indentType = !! (indentations[indent]) ? indentations[indent].value : false;
+            var indentType = !!(indentations[indent]) ? indentations[indent].value : false;
 
             // Prepare indentHTML
             indentHTML = this.pad(indentLevel, indentType);

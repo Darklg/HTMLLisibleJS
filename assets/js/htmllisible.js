@@ -6,7 +6,7 @@ var HTMLLisible = function() {
 
     var self = this,
         uniqueTags = ['meta', 'br', 'hr', 'link', 'input', 'img'],
-        tagsToTrim = ['a', 'span', 'strong', 'em', 'h1', 'h2', 'h3', 'label', 'button', 'title'],
+        tagsToTrim = ['a', 'span', 'strong', 'p', 'em', 'h1', 'h2', 'h3', 'label', 'button', 'title'],
         tagsToTrimLength = tagsToTrim.length,
         indentations = {
             'spaces2': {
